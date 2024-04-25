@@ -41,11 +41,22 @@ set "replace_package={{ADDON_NAME_PACKAGE}}"
 set "replace_addon_name={{ADDON_NAME}}"
 set "replace_addon_name_full={{ADDON_NAME_FULL}}"
 
-:: Perform replacements in files
-for /r %%F in (*) do (
-    if not "%%~xF"==".sh" if not "%%~xF"==".png" (
-        findstr /C:"{{ADDON_NAME_PACKAGE}}" "%%F" >nul 2>&1
+echo ==============================================================
+echo Addon Full Name: !addon_full_name!
+echo Addon Short Name: !addon_short_name!
+echo Package Name: !package_name!
+echo ==============================================================
+
+pause
+
+for /r /d %%F in (*) do (
+    echo Checking: %%F
+    if not "%%~xF"==".sh" if not "%%~xF"==".png" if not "%%~xF"==".bat" if /I not "%%~nxF"==".git" if not "%%~dpF"=="__pycache__\" (
+        findstr /C:"{{ADDON_NAME_PACKAGE}} {{ADDON_NAME}} {{ADDON_NAME_FULL}}" "%%F" >nul 2>&1
+        echo Found file: %%F
+        findstr /C:"{{ADDON_NAME_PACKAGE}} {{ADDON_NAME}} {{ADDON_NAME_FULL}}" "%%F" >nul 2>&1
         if not errorlevel 1 (
+            echo %%F
             set "file=%%F"
             setlocal DisableDelayedExpansion
             set "cmd=sed -i -e ""s/%replace_package%/%package_name%/g"" -e ""s/%replace_addon_name%/%addon_short_name%/g"" -e ""s/%replace_addon_name_full%/%addon_full_name%/g"" ""!file!""
@@ -54,5 +65,7 @@ for /r %%F in (*) do (
         )
     )
 )
+
+echo Your addon is ready to zip and test
 
 pause
