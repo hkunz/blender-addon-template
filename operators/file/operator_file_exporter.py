@@ -64,7 +64,7 @@ class OperatorFileExporter(bpy.types.Operator, ExportHelper):
         size = FileUtils.get_file_size(self.filepath)
         sduration = TimeUtils.format_duration(duration)
         self.report({'INFO'}, f"{get_translation('addon_name')} {self.filepath} ({size}) in {sduration}")
-        create_generic_popup(message=f"{header}|Directory: {os.path.dirname(self.filepath)}|Size: {size}|Duration: {fduration}|Check the Info Editor for more information.")
+        create_generic_popup(message=f"{header}|Directory: {os.path.dirname(self.filepath)}|Size: {size}|Duration: {sduration}|Check the Info Editor for more information.")
 
     @classmethod
     def poll(cls, context: bpy_types.Context) -> bool:
