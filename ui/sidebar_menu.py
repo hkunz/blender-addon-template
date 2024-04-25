@@ -25,6 +25,8 @@ def on_depsgraph_update(scene, depsgraph=None):
 def my_settings_callback(self: bpy.types.Scene, context: bpy_types.Context) -> List[Tuple[str, str, str]]:
     SAMPLE_LIST: List[Tuple[str, str, str]] = [
         ("NONE", "None", "Item Description"),
+        ("OPT1", "Option 1", "Item Description for Option 1"),
+        ("OPT2", "Option 2", "Item Description for Option 2"),
     ]
     return SAMPLE_LIST
 
