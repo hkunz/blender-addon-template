@@ -3,8 +3,8 @@ import re
 import tempfile
 import shutil
 
-from blender_addon_template.utils.utils import Utils # type: ignore
-from blender_addon_template.utils.string_utils import StringUtils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.string_utils import StringUtils # type: ignore
 
 class TempFileManager:
 
@@ -58,7 +58,7 @@ class TempFileManager:
     
     def clear_all_temp_directories(self, blender_version: str='\d+\.\d+\.\d+', addon_version: str='\d+\.\d+\.\d+') -> None:
         appdata_local_temp_dir: str = tempfile.gettempdir() # C:/Users/<user>/AppData/Local/Temp/
-        pattern: str = rf'cool{addon_version}-bv{blender_version}-tmp\w+'
+        pattern: str = rf'{{ADDON_NAME}}{addon_version}-bv{blender_version}-tmp\w+'
         for item in os.listdir(appdata_local_temp_dir):
             item_path: str = os.path.join(appdata_local_temp_dir, item)
             if os.path.isdir(item_path) and re.match(pattern, item):

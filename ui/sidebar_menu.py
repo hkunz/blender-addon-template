@@ -4,12 +4,12 @@ import bpy_types
 from typing import List, Tuple
 from bpy.app.handlers import persistent
 
-from blender_addon_template.operators.operator_empty import OBJECT_OT_OperatorEmpty # type: ignore
-from blender_addon_template.operators.file.operator_file_vox_exporter import EXPORT_OT_file_vox # type: ignore
-from blender_addon_template.operators.cache.operator_clear_all_temp_cache import register as register_all_temp_cache_operator, unregister as unregister_all_temp_cache_operator # type: ignore
-from blender_addon_template.operators.cache.operator_clear_temp_cache import register as register_temp_cache_operator, unregister as unregister_temp_cache_operator # type: ignore
-from blender_addon_template.utils.utils import Utils # type: ignore
-from blender_addon_template.utils.icons_manager import IconsManager  # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.operator_empty import OBJECT_OT_OperatorEmpty # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_vox_exporter import EXPORT_OT_file_vox # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_all_temp_cache import register as register_all_temp_cache_operator, unregister as unregister_all_temp_cache_operator # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_temp_cache import register as register_temp_cache_operator, unregister as unregister_temp_cache_operator # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager  # type: ignore
 
 @persistent
 def on_depsgraph_update(scene, depsgraph=None):
@@ -73,10 +73,10 @@ class MyPropertyGroup(bpy.types.PropertyGroup):
     ) # type: ignore
 
 class OBJECT_PT_my_addon_panel(bpy.types.Panel):
-    bl_label = f"cool {Utils.get_addon_version()}"
+    bl_label = f"{{ADDON_NAME}} {Utils.get_addon_version()}"
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
-    bl_category = 'cool'
+    bl_category = '{{ADDON_NAME}}'
 
     def draw(self, context) -> None:
         layout: bpy.types.UILayout = self.layout
@@ -101,9 +101,7 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
         )
         row.label(text="Export")
         if context.scene.expanded_options:
-            col = layout.column()
-            col.label(text="Export properties:")
-            col.operator(EXPORT_OT_file_vox.bl_idname, text="Export Button")
+            layout.column().operator(EXPORT_OT_file_vox.bl_idname, text="Export Button")
 
     @classmethod
     def poll(cls, context):

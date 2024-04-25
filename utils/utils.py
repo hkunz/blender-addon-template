@@ -2,13 +2,13 @@ import bpy
 
 from typing import List, Callable, Any, Tuple
 
-from blender_addon_template import bl_info # type: ignore
+from {{ADDON_NAME_PACKAGE}} import bl_info # type: ignore
 
 class Utils:
 
     @staticmethod
     def get_addon_module_name() -> str:
-        return "blender_addon_template"
+        return "{{ADDON_NAME_PACKAGE}}"
 
     @staticmethod
     def get_blender_version(prependv: bool=True, separator: str='.') -> str:

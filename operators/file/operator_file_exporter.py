@@ -8,10 +8,10 @@ from mathutils import Vector
 from typing import List
 from abc import ABC, abstractmethod
 
-from blender_addon_template.translation.translations import get_translation # type: ignore
-from blender_addon_template.operators.common.operator_generic_popup import create_generic_popup # type: ignore
-from blender_addon_template.utils.file_utils import FileUtils # type: ignore
-from blender_addon_template.utils.time_utils import TimeUtils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.translation.translations import get_translation # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.common.operator_generic_popup import create_generic_popup # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.file_utils import FileUtils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.time_utils import TimeUtils # type: ignore
 
 class OperatorFileExporter(bpy.types.Operator, ExportHelper):
     bl_description = "Operator Base Exporter"
