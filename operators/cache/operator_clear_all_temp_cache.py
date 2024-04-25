@@ -2,7 +2,7 @@ import bpy
 import bpy_types
 
 from {{ADDON_NAME_PACKAGE}}.utils.temp_file_manager import TempFileManager # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.operator_generic_popup import OperatorGenericPopup # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.common.operator_generic_popup import OperatorGenericPopup # type: ignore
 
 class FILE_OT_ClearAllTempCacheOperator(OperatorGenericPopup):
     bl_idname = "file.{{ADDON_NAME_PACKAGE}}_clear_all_temp_cache"

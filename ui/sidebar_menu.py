@@ -5,7 +5,7 @@ from typing import List, Tuple
 from bpy.app.handlers import persistent
 
 from {{ADDON_NAME_PACKAGE}}.operators.operator_empty import OBJECT_OT_OperatorEmpty # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.operator_file_vox_exporter import EXPORT_OT_file_vox # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_vox_exporter import EXPORT_OT_file_vox # type: ignore
 from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_all_temp_cache import register as register_all_temp_cache_operator, unregister as unregister_all_temp_cache_operator # type: ignore
 from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_temp_cache import register as register_temp_cache_operator, unregister as unregister_temp_cache_operator # type: ignore
 from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
