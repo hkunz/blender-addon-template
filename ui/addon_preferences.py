@@ -4,7 +4,7 @@ import bpy_types
 from bpy.types import UILayout
 from typing import List
 
-from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
+from blender_addon_template.utils.utils import Utils # type: ignore
 
 def on_addon_preferences_change() -> None:
     addon: bpy.types.Addon = bpy.context.preferences.addons[MyAddonPreferences.bl_idname]
@@ -16,7 +16,7 @@ def on_property_update(self, _: bpy_types.Context, sample_type: str) -> None:
     on_addon_preferences_change()
 
 class PREFERENCES_OT_CheckCheckboxesOperator(bpy.types.Operator):
-    bl_idname = "preferences.{{ADDON_NAME_PACKAGE}}_check_checkboxes"
+    bl_idname = "preferences.blender_addon_template_check_checkboxes"
     bl_label = "Check All"
     bl_description = "Tick all checkboxes"
     bl_options = {'INTERNAL'}
@@ -28,7 +28,7 @@ class PREFERENCES_OT_CheckCheckboxesOperator(bpy.types.Operator):
         return {'FINISHED'}
 
 class PREFERENCES_OT_ClearCheckboxesOperator(bpy.types.Operator):
-    bl_idname = "preferences.{{ADDON_NAME_PACKAGE}}_clear_checkboxes"
+    bl_idname = "preferences.blender_addon_template_clear_checkboxes"
     bl_label = "Uncheck All"
     bl_description = "Untick all checkboxes"
     bl_options = {'INTERNAL'}

@@ -1,7 +1,7 @@
 import bpy
 
-from {{ADDON_NAME_PACKAGE}}.utils.string_utils import StringUtils # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.object_utils import ObjectUtils # type: ignore
+from blender_addon_template.utils.string_utils import StringUtils # type: ignore
+from blender_addon_template.utils.object_utils import ObjectUtils # type: ignore
 
 class ObjectImportHandler:
     IMPORTED_OBJ_BASE_NAME = "ObjectImport"

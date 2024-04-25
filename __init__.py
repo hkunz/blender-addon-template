@@ -1,9 +1,9 @@
-# "{{ADDON_NAME}}"
+# "cool"
 # Author: Harry McKenzie
 #
 # ##### BEGIN LICENSE BLOCK #####
 #
-# {{ADDON_NAME}}
+# cool
 # Copyright (c) 2024 Harry McKenzie
 #
 # This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,16 @@
 # ##### END LICENSE BLOCK #####
 
 bl_info = {
-    "name": "{{ADDON_NAME_FULL}}",
-    "description": "{{ADDON_NAME}} description here",
+    "name": "my coolness addon",
+    "description": "cool description here",
     "author" : "Harry McKenzie",
     "version": (0, 0, 0),
     "blender": (2, 93, 0),
-    "location": "N-Panel > {{ADDON_NAME}}",
+    "location": "N-Panel > cool",
     "warning": "",
-    "doc_url": "https://blendermarket.com/products/{{ADDON_NAME_PACKAGE}}/docs",
-    "wiki_url": "https://blendermarket.com/products/{{ADDON_NAME_PACKAGE}}/docs",
-    "tracker_url": "https://blendermarket.com/products/{{ADDON_NAME_PACKAGE}}/docs",
+    "doc_url": "https://blendermarket.com/products/blender_addon_template/docs",
+    "wiki_url": "https://blendermarket.com/products/blender_addon_template/docs",
+    "tracker_url": "https://blendermarket.com/products/blender_addon_template/docs",
     "support": "COMMUNITY",
     "category": "Import-Export",
 }
@@ -43,13 +43,13 @@ from pathlib import Path
 from typing import Union
 from bpy.app.handlers import persistent
 
-from {{ADDON_NAME_PACKAGE}}.ui.addon_preferences import register as register_preferences, unregister as unregister_preferences # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.file_utils import FileUtils # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.temp_file_manager import TempFileManager # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager # type: ignore
-from {{ADDON_NAME_PACKAGE}}.translation.translations import register as register_translations, unregister as unregister_translations # type: ignore
-from {{ADDON_NAME_PACKAGE}}.ui.sidebar_menu import register as register_sidebar_menu, unregister as unregister_sidebar_menu # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.common.operator_generic_popup import register as register_generic_popup, unregister as unregister_generic_popup # type: ignore
+from blender_addon_template.ui.addon_preferences import register as register_preferences, unregister as unregister_preferences # type: ignore
+from blender_addon_template.utils.file_utils import FileUtils # type: ignore
+from blender_addon_template.utils.temp_file_manager import TempFileManager # type: ignore
+from blender_addon_template.utils.icons_manager import IconsManager # type: ignore
+from blender_addon_template.translation.translations import register as register_translations, unregister as unregister_translations # type: ignore
+from blender_addon_template.ui.sidebar_menu import register as register_sidebar_menu, unregister as unregister_sidebar_menu # type: ignore
+from blender_addon_template.operators.common.operator_generic_popup import register as register_generic_popup, unregister as unregister_generic_popup # type: ignore
 
 def add_executable_permission(exe: Union[str, Path]) -> Path: #https://blender.stackexchange.com/questions/310144/mac-executable-binary-within-addon-zip-loses-execute-permission-when-addon-zip
     app = Path(f"{exe}")
