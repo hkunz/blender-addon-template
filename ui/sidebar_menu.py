@@ -83,13 +83,12 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
         selected_mesh_objects = [obj for obj in context.selected_objects if obj.type == 'MESH']
         active_object = context.active_object if len(selected_mesh_objects) > 0 and context.active_object in selected_mesh_objects else None
         properties: MyPropertyGroup = context.scene.my_property_group_pointer
-        box = layout.box().row()
+        box = layout.box().column()
         box.prop(properties, "my_enum_prop")
         box.prop(properties, "my_float_prop")
         box.prop(properties, "my_string_prop")
         box.prop(properties, "my_file_input_prop")
         box.label(text="Icon Label", icon=IconsManager.BUILTIN_ICON_MESH_DATA)
-        mbox = layout.box()
         self.draw_expanded_options(context, layout)
 
     def draw_expanded_options(self, context, layout):
@@ -102,7 +101,7 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
         )
         row.label(text="Export")
         if context.scene.expanded_options:
-            layout.column().operator("object.null_operator", text="Null Button")
+            layout.column().operator(EXPORT_OT_file_vox.bl_idname, text="Export Button")
 
     @classmethod
     def poll(cls, context):
