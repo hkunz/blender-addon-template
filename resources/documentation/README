@@ -1,0 +1,77 @@
+=============================================================================================
+VIEW TEST DOCUMENTATION HTML
+=============================================================================================
+
+You can start a local server to test the html file
+
+METHOD 1:
+
+* Navigate: cd resources/documentation/
+* Execute: python3 -m http.server
+* Browser: https://http://localhost:8000
+
+METHOD 2:
+
+* Install Live Server extension on VSCode
+* Open HTML file in VSCode
+* Run Ctrl + Shift + P > "Live Server: Open with Live Server"
+* http://127.0.0.1:5500/resources/documentation/documentation.html
+
+=============================================================================================
+MODIFY DOCUMENTATION
+=============================================================================================
+
+* Edit "test/documentation-content.html" included in "documentation.html"
+* Test output via METHOD 2 with HTML document "documentation.html"
+* run script "generate-documentation-content-html.sh" from project root
+* copy contents from "final/documentation-content.html" to blendermarket.com docs
+
+=============================================================================================
+DOCUMENTATION TO PDF CONVERSION (https://html2pdf.com or https://pdfcrowd.com)
+=============================================================================================
+
+Open documentation-simple.html
+Replace <div w3-include-html...</div> with actual final html/css contents
+Copy everything to https://pdfcrowd.com/ under "Convert HTML Code" and then click convert
+
+COMMAND LINE:
+wkhtmltopdf --page-size A4 --margin-top 10mm --margin-bottom 10mm --margin-left 10mm --margin-right 10mm documentation-simple.html output.pdf
+
+=============================================================================================
+DOCUMENTATION CONTENT
+=============================================================================================
+
+1. Introduction
+1.1 Overview
+1.2 Purpose
+1.3 Functionality
+1.4 Compatibility
+
+2. Installation
+2.1 Requirements
+2.2 Downloading the Addon
+2.3 Installing the Addon
+2.4 Activating the Addon
+
+3. Getting Started
+3.1 Configuration Options
+3.2 User Interface Overview
+3.3 Logging
+
+4. Troubleshooting
+4.1 Common Issues
+4.2 Error Messages
+
+5. FAQ
+5.1 Frequently Asked Questions
+5.2 Answers
+
+6. Support and Community
+6.1 Contact Information
+6.2 Online Resources
+6.3 Community Forums
+
+7. Appendix
+7.1 Glossary
+7.2 Additional Resources
+7.3 Version History

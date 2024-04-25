@@ -1,0 +1,51 @@
+h4.outline-item-h4 {font-family: Verdana, Geneva, sans-serif; font-weight: bold; background-color: #5289ff; color: #ffffff; padding: 10px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;}
+h6.outline-item-h6 {font-family: Verdana, Geneva, sans-serif; font-weight: bold; background-color: #5289ff; color: #ffffff; padding: 10px; border-top-right-radius: 50px; border-bottom-right-radius: 50px; border-top-left-radius: 10px; border-bottom-left-radius: 10px;}
+h6.outline-item-small-h6 {font-family: Verdana, Geneva, sans-serif; font-weight: bold; background-color: #5289ff; color: #ffffff; padding: 8px 10px 5px 10px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;}
+h4 .outline-number-main {background-color: #000; color:#fff; padding: 2px 25px 2px 15px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;}
+h6 .outline-number-1sub {background-color: #000; color:#fff; padding: 2px 15px 2px 10px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;}
+h6 .outline-number-2sub {background-color: #000; color:#fff; padding: 0px 15px 0px 15px; border-top-right-radius: 50px; border-bottom-right-radius: 50px;}
+
+p.default-format {text-align: justify; padding-left: 5px; padding-right: 5px;}
+div.section-end {margin-bottom: 30px;}
+div.section-spacer {margin-bottom: 20px;}
+
+table tr.default-alternate-color {background-color: #dfdfdf; background-color: #f1f1f1;} /* script will process alternation */
+.default-table tbody tr:nth-child(odd) {background-color: #dfdfdf;} /* only works in test enviroment and will be removed by script */
+.default-table tbody tr:nth-child(even) {background-color: #f1f1f1;} /* only works in test enviroment and will be removed by script */
+
+table tr.alternate-color {background-color: #e4f5ff; background-color: #cde9fa;} /* script will process alternation */
+.formats-table tbody tr:nth-child(odd) {background-color: #e4f5ff;} /* only works in test enviroment and will be removed by script */
+.formats-table tbody tr:nth-child(even) {background-color: #cde9fa;} /* only works in test enviroment and will be removed by script */
+
+.default-table {border-collapse: separate; border: 4px; width: 100%; padding: 0px;}
+.formats-table {border-collapse: separate; border: 4px; width: 100%; padding: 0px;}
+
+table .padded-cell {padding: 5px 25px;}
+table .padded-cell-no-wrap {padding: 5px 25px; white-space: nowrap;}
+table .center-cell {text-align: center;}
+table thead.table-header-type {background-color: #292929;}
+table tbody td.table-footer-type {background-color: #555555; height:10px;}
+
+span.boxed-text {color:white; font-weight: bold; background-color: #444444; padding: 0px 7px 1px 7px; border-radius: 5px;}
+span.gray-boxed-text {color:white; font-weight: bold; background-color: #7c7c7c; padding: 0px 8px 1px 8px; border-radius: 5px;}
+span.orange-boxed-text {color:white; font-weight: bold; background-color: #ff8000; padding: 0px 5px 0px 5px; border-radius: 5px;}
+span.red-boxed-text {color:white; font-weight: bold; background-color: #ff4800; padding: 0px 5px 0px 5px; border-radius: 5px;}
+span.blue-boxed-text {color:white; font-weight: bold; background-color: #5289ff; padding: 0px 7px 1px 7px; border-radius: 5px;}
+span.yellow-boxed-text {color:rgb(0, 0, 0); background-color: #ff0; padding: 0px 5px 0px 5px; border-radius: 5px;}
+span.white-boxed-text {color:#000000; font-weight: bold; background-color: #fff; padding: 0px 8px 0px 8px; border-radius: 5px;}
+
+span.partial-orange-boxed-text {color:white; font-weight: bold; background-color: #ff8000; padding: 0px 7px 1px 7px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;}
+span.partial-black-boxed-text {color:white; font-weight: bold; background-color: #444444; padding: 0px 7px 1px 7px; border-top-left-radius: 5px; border-bottom-left-radius: 5px;}
+
+div.console-window {width: 100%; margin: 15px auto; border: 1px solid #9c9c9c; border-radius: 10px; overflow: hidden;}
+div.title-bar {background-color: #cfcfcf; color: rgb(26, 26, 26); padding: 5px 5px 5px 10px; font-weight: bold; user-select: none;}
+div.console-body {background-color: black; color: white; padding: 15px; font-family: 'Courier New', Courier, monospace; font-weight: normal; text-align: left;}
+
+pre.terminal-style {color: #fff; background-color:#202020; white-space: pre-wrap;}
+span.arrow {font-weight:bold; margin:5px; color: #616161;}
+
+div.image-container {display: flex; flex-direction: column; position: relative; border-radius: 7px; overflow: hidden; margin-bottom: 15px;}
+div img.image-step {display: block; margin-bottom: -1px; max-width: 100%;}
+div.image-description {background-color: black; color: white; padding: 3px 10px 3px 10px; margin-top: auto; font-weight: normal; border-bottom: 1px solid #808080; text-align: left;}
+div.text-block {background-color: #363636; padding: 20px 20px 10px 20px; border-radius: 10px;margin-bottom: 20px; color:#ffffff; font-weight: normal; text-align: justify;}
+div.text-gray-block {border: 3px solid #ff4800; color:#fff; font-weight: normal; background-color: #333333; padding: 20px 20px 10px 20px; border-radius: 10px;margin-bottom: 20px; text-align: justify;}

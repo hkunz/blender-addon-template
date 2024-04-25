@@ -1,2 +1,5 @@
-# blender-addon-template
-Template for blender addon
+=================================================================
+# {{ADDON_NAME}}
+=================================================================
+
+{{ADDON_NAME}} description here
