@@ -8,7 +8,7 @@ class Utils:
 
     @staticmethod
     def get_addon_module_name() -> str:
-        return "{{ADDON_NAME}}"
+        return "{{ADDON_NAME_PACKAGE}}"
 
     @staticmethod
     def get_blender_version(prependv: bool=True, separator: str='.') -> str:
