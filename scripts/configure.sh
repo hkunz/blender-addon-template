@@ -1,0 +1,91 @@
+#!/bin/bash
+
+current_directory=$(basename "$(pwd)" | sed 's/^[ \t]*//;s/[ \t]*$//')
+package_name="${current_directory}"
+python_package_note="Python packages start with the current directory"
+
+vertical_line="║"
+horizontal_line="═"
+top_left_corner="╔"
+top_right_corner="╗"
+bottom_left_corner="╚"
+bottom_right_corner="╝"
+
+echo "Current directory: ${current_directory}"
+
+# Check if the directory name contains dashes
+if [[ "$current_directory" == *-* ]]; then
+    echo "Warning: ${python_package_note} and should use underscores instead of dashes in their names."
+    echo "Please rename the directory and re-run the script."
+    exit 1
+fi
+
+# Check if the directory name starts with a letter or number
+if ! [[ "$current_directory" =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+    echo "Error: ${python_package_note} and should start with a letter and contain only letters, numbers, or underscores."
+    echo "Please rename the directory and re-run the script."
+    exit 1
+fi
+
+print_box_line() {
+    local line_length=$1
+    local corner_left=$2
+    local corner_right=$3
+    local line_char=$4
+    local box_line="$corner_left"
+    for ((i=0; i<$line_length; i++)); do
+        box_line="$box_line$line_char"
+    done
+    box_line="$box_line$corner_right"
+    echo "$box_line"
+}
+
+print_boxed_text() {
+    local text="$1"
+    local box_width=${#text}
+    local padding=$(( (max_text_length - box_width) / 2 ))
+    local left_padding=$(( padding + 2 ))
+    local right_padding=$(( max_text_length - box_width - padding + 2 ))
+    printf "$vertical_line%${left_padding}s$text%${right_padding}s$vertical_line\n" " " " "
+}
+
+addon_full_name_label="Addon Full Name"
+addon_short_name_label="Addon Short Name"
+addon_package_label="Addon Package"
+
+
+read -p "Enter ${addon_full_name_label}: " addon_full_name
+addon_full_name=$(echo "$addon_full_name" | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+read -p "Enter ${addon_short_name_label} (if any): " addon_short_name
+addon_short_name=$(echo "$addon_short_name" | sed 's/^[ \t]*//;s/[ \t]*$//')
+
+if [ -z "$addon_short_name" ]; then
+    addon_short_name="$addon_full_name"
+fi
+
+max_text_length=0
+for text in "${addon_full_name_label}: $addon_full_name" "${addon_short_name_label}: $addon_short_name" "${addon_package_label}: $package_name"; do
+    text_length=${#text}
+    if (( text_length > max_text_length )); then
+        max_text_length=$text_length
+    fi
+done
+
+print_box_line "$((max_text_length + 4))" "$top_left_corner" "$top_right_corner" "$horizontal_line"
+
+for text in "${addon_full_name_label}: $addon_full_name" "${addon_short_name_label}: $addon_short_name" "${addon_package_label}: $package_name"; do
+    print_boxed_text "$text"
+done
+
+print_box_line "$((max_text_length + 4))" "$bottom_left_corner" "$bottom_right_corner" "$horizontal_line"
+
+for file in *; do
+    if [[ -f "$file" && "$file" != *.sh ]]; then
+        # Perform replacements using sed
+        sed -i "s/{{ADDON_NAME_PACKAGE}}/${package_name}/g" "$file"
+        sed -i "s/{{ADDON_NAME}}/${addon_short_name}/g" "$file"
+        sed -i "s/{{ADDON_NAME_FULL}}/${addon_full_name}/g" "$file"
+        echo "Replaced placeholders in $file"
+    fi
+done
