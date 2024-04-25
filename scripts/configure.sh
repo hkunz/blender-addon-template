@@ -80,12 +80,20 @@ done
 
 print_box_line "$((max_text_length + 4))" "$bottom_left_corner" "$bottom_right_corner" "$horizontal_line"
 
-for file in *; do
-    if [[ -f "$file" && "$file" != *.sh ]]; then
-        # Perform replacements using sed
-        sed -i "s/{{ADDON_NAME_PACKAGE}}/${package_name}/g" "$file"
-        sed -i "s/{{ADDON_NAME}}/${addon_short_name}/g" "$file"
-        sed -i "s/{{ADDON_NAME_FULL}}/${addon_full_name}/g" "$file"
-        echo "Replaced placeholders in $file"
-    fi
+replace_package="{{ADDON_NAME_PACKAGE}}"
+replace_addon_name="{{ADDON_NAME}}"
+replace_addon_name_full="{{ADDON_NAME_FULL}}"
+
+perform_replacements() {
+    local file="$1"
+    local package_name="$2"
+    local addon_short_name="$3"
+    local addon_full_name="$4"
+
+    sed -i "s/${replace_package}/${package_name}/g; s/${replace_addon_name}/${addon_short_name}/g; s/${replace_addon_name_full}/${addon_full_name}/g" "$file"
+}
+
+find . \( -name .git -o -name __pycache__ \) -prune -o \( -type f -not -name "*.sh" -not -name "*.png" \) -print0 | while IFS= read -r -d '' file; do
+    perform_replacements "$file" "$package_name" "$addon_short_name" "$addon_full_name"
+    echo "Replaced placeholders in $file"
 done
