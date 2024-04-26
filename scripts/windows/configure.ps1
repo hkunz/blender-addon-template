@@ -13,7 +13,7 @@ Write-Output "Current directory: $current_directory"
 
 # Check if the directory name starts with a letter or number
 if (-not ($current_directory -match "^[a-zA-Z][a-zA-Z0-9_]*$")) {
-    Write-Output "Error: $python_package_note and should start with a letter and contain only letters, numbers, or underscores. No spaces allowed."
+    Write-Output "Error: $python_package_note and should start with a letter and contain only letters, numbers, or underscores. No spaces or dashes allowed."
     Write-Output "Please rename the directory and re-run the script."
     Read-Host "Press Enter to exit..."
     exit 1
