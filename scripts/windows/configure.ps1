@@ -81,7 +81,8 @@ function Process-Files {
 
     # Get files in the current directory
     Get-ChildItem -Path $path -File |
-        Where-Object { $_.Extension -notin ('.sh', '.png') -or $_.Extension -eq '.html' } |
+        # exclude these file types and also exclude linux symlinks with reparsepoint
+        Where-Object { $_.Extension -notin ('.sh', '.ps1', '.png') -and -not $_.Attributes.HasFlag([System.IO.FileAttributes]::ReparsePoint) } |
         ForEach-Object {
             # Perform replacements for each file
             Perform-Replacements -file $_.FullName -package_name $package_name -addon_short_name $addon_short_name -addon_full_name $addon_full_name
