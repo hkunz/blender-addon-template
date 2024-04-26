@@ -39,7 +39,7 @@ Write-Output "Addon Short Name: $addon_short_name"
 Write-Output "Package Name: $package_name"
 Write-Output "=============================================================="
 
-Read-Host "Press Enter to continue..."
+Read-Host "Press Enter to continue"
 
 function Perform-Replacements {
     param (

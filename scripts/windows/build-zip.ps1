@@ -1,5 +1,7 @@
 Set-Location ..\..
 
+$winrar_path = "C:\Program Files\WinRAR\Rar.exe"
+
 $addon_version = (Get-Content -Path "__init__.py" | Where-Object { $_ -match '"version": \(.*?\d+,\s*\d+,\s*\d+' } | ForEach-Object { $_ -replace '.*\((\d+),\s*(\d+),\s*(\d+)\).*', '$1.$2.$3' }).Trim('"')
 
 Write-Output "Addon version: $addon_version"
@@ -7,10 +9,12 @@ Write-Output "Addon version: $addon_version"
 $parent_folder = (Get-Item -Path ".").Name
 $current_branch = ""
 $output_zip = ""
+
 try {
     $current_branch = & git rev-parse --abbrev-ref HEAD
-    $output_zip = "${parent_folder}-${current_branch}.zip" -replace '_', '-'
-} catch {
+    $output_zip = "${parent_folder}-$current_branch.zip" -replace '_', '-'
+} 
+catch {
     Write-Output "Warning: Git is not installed. Cannot get the current branch. Not including any branch name."
     $output_zip = "${parent_folder}.zip" -replace '_', '-'
 }
@@ -19,40 +23,20 @@ Set-Location ..
 
 Get-ChildItem -Path . -Filter "*.zip" -File | Remove-Item -Force
 
+Write-Output "======================================================="
 Write-Output "Parent: $parent_folder"
 Write-Output "Branch: $current_branch"
 Write-Output "Output: $output_zip"
+Write-Output "======================================================="
+Write-Output "Please make sure you have WinRAR installed in: C:\Program Files\WinRAR\WinRAR.exe or change path in this script"
 
-$excluded_paths = @(
-    "${parent_folder}/.vscode/*",
-    "${parent_folder}/.git/*",
-    "${parent_folder}/temp/*",
-    "${parent_folder}/**/documentation/*",
-    "${parent_folder}/**/useful/*",
-    "${parent_folder}/scripts/*",
-    "${parent_folder}/*.template.*",
-    "${parent_folder}/*TODO.*",
-    "${parent_folder}/$(Get-Item -Path $MyInvocation.MyCommand.Path).Name"
-)
+Read-Host "Press Enter to create ZIP addon file"
 
-$exclude_pycache = Get-ChildItem -Path $parent_folder -Recurse -Directory -Filter "__pycache__" | ForEach-Object { $_.FullName }
 
-$excluded_paths += $exclude_pycache
 
-Pause
+& $winrar_path a -r '-x*\.git' '-x*\.git\*' '-x*.gitignore' -x*\__pycache__ -x*\__pycache__\* -x*\scripts -x*\scripts\* -x*\documentation -x*\documentation\* "$output_zip" "${parent_folder}\*"
 
-$zip_params = @{
-    Path = "${parent_folder}/*"
-    DestinationPath = $output_zip
-    Force = $true
-}
 
-$zip_params.Add("CompressionLevel", "NoCompression")
-$zip_params.Add("Update", $true)
-$zip_params.Add("Exclude", $excluded_paths)
-
-Compress-Archive @zip_params
-
-Write-Output "Created zip file: $(Get-Location)/${output_zip}"
+Write-Output "Created ZIP file: $(Get-Location)/$output_zip"
 
 Pause
