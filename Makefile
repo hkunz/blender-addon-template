@@ -24,7 +24,7 @@ create-next-tag:
 	./scripts/create-tag.sh -i
 
 zip:
-	./scripts/build.sh
+	./scripts/build-zip.sh
 
 fix-py-permissions:
 	find . -type f -name '*.py' -exec chmod 755 {} +
