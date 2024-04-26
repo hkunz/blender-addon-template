@@ -37,18 +37,9 @@ $excluded_paths = @(
 
 $exclude_pycache = Get-ChildItem -Path $parent_folder -Recurse -Directory -Filter "__pycache__" | ForEach-Object { $_.FullName }
 
-$executables_folder = "${parent_folder}/executables"
-$exclude_executables = @()
-if (Test-Path $executables_folder) {
-    $exclude_executables = Get-ChildItem -Path $executables_folder -Directory -Exclude $addon_version | ForEach-Object { $_.FullName }
-}
-
 $excluded_paths += $exclude_pycache
-$excluded_paths += $exclude_executables
 
 Pause
-
-# Rest of your script...
 
 $zip_params = @{
     Path = "${parent_folder}/*"
@@ -56,16 +47,9 @@ $zip_params = @{
     Force = $true
 }
 
-# Exclude files and directories
-if ($excluded_paths.Count -gt 0) {
-    $excluded_paths_array = @()
-    $excluded_paths | ForEach-Object {
-        $excluded_paths_array += $_
-    }
-    $zip_params.Add("CompressionLevel", "NoCompression")
-    $zip_params.Add("Update", $true)
-    $zip_params.Add("Exclude", $excluded_paths_array)
-}
+$zip_params.Add("CompressionLevel", "NoCompression")
+$zip_params.Add("Update", $true)
+$zip_params.Add("Exclude", $excluded_paths)
 
 Compress-Archive @zip_params
 

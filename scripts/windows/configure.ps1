@@ -1,17 +1,11 @@
-# Change directory to the parent directory
-
 Set-Location ..\..
 
-# Get current directory name
 $current_directory = (Get-Item -Path ".\").Name
 $package_name = $current_directory
 $python_package_note = "Python package names start with the name of the current directory"
 
 Write-Output "Current directory: $current_directory"
 
-
-
-# Check if the directory name starts with a letter or number
 if (-not ($current_directory -match "^[a-zA-Z][a-zA-Z0-9_]*$")) {
     Write-Output "Error: $python_package_note and should start with a letter and contain only letters, numbers, or underscores. No spaces or dashes allowed."
     Write-Output "Please rename the directory and re-run the script."
@@ -19,7 +13,6 @@ if (-not ($current_directory -match "^[a-zA-Z][a-zA-Z0-9_]*$")) {
     exit 1
 }
 
-# Check if the directory name contains dashes
 if ($current_directory -match "-") {
     Write-Output "Warning: $python_package_note and should use underscores instead of dashes or spaces in their names."
     Write-Output "Please rename the directory and re-run the script."
@@ -48,8 +41,6 @@ Write-Output "=============================================================="
 
 Read-Host "Press Enter to continue..."
 
-# Function to perform replacements in a file
-# Function to perform replacements in a file
 function Perform-Replacements {
     param (
         [string]$file,
@@ -72,8 +63,6 @@ function Perform-Replacements {
     }
 }
 
-
-
 function Process-Files {
     param (
         [string]$path
@@ -89,22 +78,15 @@ function Process-Files {
             Write-Host "Replaced placeholders in $($_.FullName)"
         }
 
-    # Get subdirectories in the current directory
     $subdirectories = Get-ChildItem -Path $path -Directory | Where-Object { $_.Name -notin @(".git", "scripts", "__pycache__") }
 
-    # Recursively process each subdirectory
     foreach ($subdirectory in $subdirectories) {
         Process-Files -path $subdirectory.FullName
     }
 }
 
-
-# Start processing from the current directory
 Process-Files -path $PWD.Path
-
 
 Write-Output "Your addon is ready to zip and test"
 
 Read-Host "Press Enter to exit..."
-
-
