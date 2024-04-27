@@ -1,9 +1,9 @@
-# "{{ADDON_NAME}}"
+# "{{ADDON_NAME_FULL}}"
 # Author: Harry McKenzie
 #
 # ##### BEGIN LICENSE BLOCK #####
 #
-# {{ADDON_NAME}}
+# {{ADDON_NAME_FULL}}
 # Copyright (c) 2024 Harry McKenzie
 #
 # This program is free software: you can redistribute it and/or modify
