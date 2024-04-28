@@ -39,4 +39,17 @@
 * Right click file build-zip.ps1 > Run with PowerShell to create ZIP addon file
 * Zip file will be created 1 level above the addon root folder
 
+=================================================================
+# Blender VSCode https://www.youtube.com/watch?v=YUytEtaVrrc
+=================================================================
 
+* Download & Install Python https://www.python.org/downloads/
+* Download & Install VS Code https://code.visualstudio.com/download
+* Open View > Terminal and type: pip install fake-bpy-module-latest
+* Close and Re-open VS Code
+* Install plugin "Blender Development" by Jacques Lucke
+* Open Explorer: C:\Program Files\Blender Foundation\Blender <version>\<version>\
+* Right-click folder 'Python' > Properties > Security Tab
+* Select "Users (<User>\Users)" > Edit > "Users (<User>\Users)"
+* Tick "Write" allow permission then click Apply
+* Ctrl+Shift+P > Blender: Start
