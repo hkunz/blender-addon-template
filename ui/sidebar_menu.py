@@ -103,7 +103,10 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
         )
         row.label(text="Export")
         if context.scene.expanded_options:
-            layout.column().operator(EXPORT_OT_file_vox.bl_idname, text="Export Button")
+            col = layout.column()
+            col.prop(data=context.scene.render,property="fps",text="Frame Rate") # https://blender.stackexchange.com/questions/317553/how-to-exposure-render-settings-to-addon-panel/317565#317565
+            #col.prop(data=context.object.modifiers["VoxilityVoxelizeModifier_4_0_v1_0_12"], property="Socket_2", text="Size V") # get data by right clicking a property and Copy Full Data Path
+            col.operator(EXPORT_OT_file_vox.bl_idname, text="Export Button")
 
     @classmethod
     def poll(cls, context):
