@@ -9,6 +9,7 @@ from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_vox_exporter import EXP
 from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_all_temp_cache import register as register_all_temp_cache_operator, unregister as unregister_all_temp_cache_operator # type: ignore
 from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_temp_cache import register as register_temp_cache_operator, unregister as unregister_temp_cache_operator # type: ignore
 from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.object_utils import ObjectUtils # type: ignore
 from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager  # type: ignore
 
 @persistent
@@ -105,8 +106,12 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
         if context.scene.expanded_options:
             col = layout.column()
             col.prop(data=context.scene.render,property="fps",text="Frame Rate") # https://blender.stackexchange.com/questions/317553/how-to-exposure-render-settings-to-addon-panel/317565#317565
-            #col.prop(data=context.object.modifiers["VoxilityVoxelizeModifier_4_0_v1_0_12"], property="Socket_2", text="Size V") # get data by right clicking a property and Copy Full Data Path
+            #self.add_layout_gn_prop(layout, context.object.modifiers["Geometry Nodes"], "Socket_2") # https://blender.stackexchange.com/questions/317571/how-can-i-expose-geometry-nodes-properties-in-my-addon-panel/317586
             col.operator(EXPORT_OT_file_vox.bl_idname, text="Export Button")
+
+    def add_layout_gn_prop(self, layout, modifier, prop_id):
+        name = ObjectUtils.get_modifier_prop_name(modifier, prop_id)
+        layout.prop(data=modifier, property=f'["{prop_id}"]', text=name)
 
     @classmethod
     def poll(cls, context):
