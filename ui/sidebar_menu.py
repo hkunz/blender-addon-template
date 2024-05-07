@@ -107,10 +107,16 @@ class MyPropertyGroup2(bpy.types.PropertyGroup):
     ) # type: ignore
 
 class OBJECT_PT_my_addon_panel(bpy.types.Panel):
+    bl_idname = "OBJECT_PT_my_addon_panel"
     bl_label = f"{{ADDON_NAME}} {Utils.get_addon_version()}"
+    #use these 3 lines if you want the addon to be under a tab within N-Panel
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_category = '{{ADDON_NAME}}'
+    #use these 3 lines if you want the addon to be a custom tab under Object Properties
+    #bl_space_type = 'PROPERTIES'
+    #bl_region_type = 'WINDOW'
+    #bl_context = "object"
 
     def draw(self, context) -> None:
         layout: bpy.types.UILayout = self.layout
