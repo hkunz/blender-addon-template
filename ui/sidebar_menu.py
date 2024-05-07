@@ -166,6 +166,7 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
 
     def draw_sample_color_picker(self, context, layout):
         ob = context.object
+        if not ob: return
         mat = ob.active_material
         layout.prop(mat.my_slot_setting, "rgb_controller")
         # sample to set the color via python:
