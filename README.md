@@ -47,7 +47,7 @@
 * Download & Install VS Code https://code.visualstudio.com/download
 * Open View > Terminal and type: pip install fake-bpy-module-latest
 * Close and Re-open VS Code
-* Install plugin "Blender Development" by Jacques Lucke
+* Install plugin/extension (Ctrl+Shift+X) "Blender Development" by Jacques Lucke
 * Open Explorer: C:\Program Files\Blender Foundation\Blender <version>\<version>\
 * Right-click folder 'Python' > Properties > Security Tab
 * Select "Users (<User>\Users)" > Edit > "Users (<User>\Users)"
