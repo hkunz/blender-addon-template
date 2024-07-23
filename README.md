@@ -50,6 +50,6 @@
 * Install plugin/extension (Ctrl+Shift+X) "Blender Development" by Jacques Lucke
 * Open Explorer: C:/Program Files/Blender Foundation/Blender &lt;version&gt;/&lt;version&gt;/
 * Right-click folder 'Python' &gt; Properties &gt; Security Tab
-* Select "Users (<User>/Users)" &gt; Edit &gt; "Users (&lt;User&gt;/Users)"
+* Select "Users (User\\Users)" &gt; Edit &gt; "Users (User\\Users)"
 * Tick "Write" allow permission then click Apply
 * Ctrl+Shift+P &gt; Blender: Start
