@@ -8,7 +8,8 @@
 # Configure Unix & Linux
 =================================================================
 
-* Download source files or fork this repository
+* Fork this repository or click "Use this template" > "Create a new repostiory" in the upper right corner of the template repository
+* git clone https://<user>:<token>@github.com/hkunz/blender-addon-template.git your_addon_repository_name
 * Rename the root directory with your addon name without spaces and dashes
 * Run "make configure" or directly run ./scripts/configure.sh from root directory
 
