@@ -9,7 +9,7 @@
 =================================================================
 
 * Login to GitHub and click "Use this template" > "Create a new repostiory" in the upper right corner of this template repository page
-* In terminal: `git clone https://<user>:<token>@github.com/hkunz/your_new_repository your_addon_repository_name`
+* In terminal: `git clone https://<user>:<token>@github.com/<user>/your_new_repository your_addon_repository_name`
 * Rename the root directory with your addon name without spaces and dashes
 * Run "make configure" or directly run ./scripts/configure.sh from root directory
 
