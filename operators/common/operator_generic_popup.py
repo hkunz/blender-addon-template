@@ -44,3 +44,22 @@ def unregister() -> None:
 
 def create_generic_popup(message: str) -> None:
     bpy.ops.wm.{{ADDON_NAME_PACKAGE}}_generic_popup('INVOKE_DEFAULT', message=message) # type: ignore
+
+# Sample Usage:
+class WEB_OT_SampleExecuteOperator(OperatorGenericPopup):
+    bl_idname = "blender_web_pro.install_something"
+    bl_label = "Install Something"
+    bl_description = "Install Something Description"
+
+    def draw(self, context) -> None:
+        self.message = "This message appears in the popup content|This is on the 2nd line"
+        self.exec_message = "This message appears at bottom as INFO when OK is pressed"
+        super().draw(context)
+
+    #override if you need to bypass prompt
+    #def invoke(self, context, _: bpy.types.Event) -> set[str]:
+    #    return self.execute(context)
+
+    def execute(self, context):
+        self.report({'INFO'}, f"Execute some stuff once OK is pressed. Click away if you want to cancel")
+        return {'FINISHED'}
