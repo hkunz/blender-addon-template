@@ -1,6 +1,7 @@
 import bpy
 import os
 import platform
+import shutil
 
 class FileUtils:
 
@@ -45,3 +46,8 @@ class FileUtils:
     @staticmethod
     def get_file_extension(file_path: str) -> str:
         return os.path.splitext(file_path)[1][1:].lower()
+
+    # copy folders and their contents recursively from the source directory to the destination directory
+    @staticmethod
+    def copy_dir_contents(src, tgt, dirs_exist_ok=True):
+        shutil.copytree(src=src, dst=tgt, dirs_exist_ok=dirs_exist_ok)
