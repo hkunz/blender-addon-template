@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if ! command -v zip &> /dev/null; then
+    echo "Error: 'zip' command not found. Please install zip."
+    exit 1
+fi
+
 addon_version=$(grep -oP '"version": \(\K\d+,\s*\d+,\s*\d+' __init__.py | tr -d ' \n' | sed 's/,/./g')
 
 echo "Addon version: ${addon_version}"
