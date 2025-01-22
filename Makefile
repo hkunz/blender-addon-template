@@ -1,5 +1,7 @@
 .PHONY: all clean documentation
 
+version ?= -i
+
 all: \
 	clean \
 	documentation
@@ -21,7 +23,7 @@ documentation-pdf:
 create-next-tag:
 	@echo "=====================================================================================>"
 	@echo "Create new tag ..."
-	./scripts/create-tag.sh -i
+	./scripts/create-tag.sh $(version)
 
 zip:
 	./scripts/build-zip.sh
