@@ -4,7 +4,7 @@
 # ##### BEGIN LICENSE BLOCK #####
 #
 # {{ADDON_NAME_FULL}}
-# Copyright (c) 2024 Harry McKenzie
+# Copyright (c) 2025 Harry McKenzie
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
