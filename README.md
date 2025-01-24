@@ -41,9 +41,10 @@
 * Zip file will be created 1 level above the addon root folder
 
 =================================================================
-# Blender VSCode https://www.youtube.com/watch?v=YUytEtaVrrc
+# Blender VSCode for Addon Development Installation
 =================================================================
 
+* YouTube Tutorial: https://www.youtube.com/watch?v=YUytEtaVrrc
 * Download & Install Python https://www.python.org/downloads/
 * Download & Install VS Code https://code.visualstudio.com/download
 * Open View > Terminal and type: pip install fake-bpy-module-latest
