@@ -1,0 +1,19 @@
+# Ensure text files use LF
+* text=auto
+
+# Handle specific file types
+*.sh text eol=lf
+*.py text eol=lf
+*.bat text eol=crlf
+*.md text eol=lf
+*.txt text eol=lf
+*.ps1 text eol=lf
+
+
+# Prevent binary files from being altered
+*.jpg binary
+*.png binary
+*.zip binary
+
+# Use the following command to configure repository to use LF endings
+# git config --global core.autocrlf true
