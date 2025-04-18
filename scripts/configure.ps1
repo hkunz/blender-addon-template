@@ -162,3 +162,7 @@ foreach ($file in $filesToUpdate) {
     Set-Content $file.FullName $updatedContent
     Write-Host "Replaced placeholders in $($file.FullName)"
 }
+
+Write-Output "Done"
+
+Pause
