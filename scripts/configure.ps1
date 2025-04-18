@@ -1,4 +1,9 @@
 # ────────────────────────────────────────────────────────────────────────────────
+# Always switch to the root directory (parent of where this script lives)
+# ────────────────────────────────────────────────────────────────────────────────
+Set-Location (Split-Path -Path $PSScriptRoot -Parent)
+
+# ────────────────────────────────────────────────────────────────────────────────
 # Box Drawing Utility (Simplified with ASCII characters)
 # ────────────────────────────────────────────────────────────────────────────────
 $verticalLine = "|"
@@ -15,11 +20,7 @@ function Print-Box-Line {
         [string]$cornerRight,
         [string]$lineChar
     )
-    $boxLine = "$cornerLeft"
-    for ($i = 0; $i -lt $lineLength; $i++) {
-        $boxLine += $lineChar
-    }
-    $boxLine += "$cornerRight"
+    $boxLine = "$cornerLeft" + ($lineChar * $lineLength) + "$cornerRight"
     Write-Host $boxLine
 }
 
@@ -49,7 +50,6 @@ $addonFullName = $addonFullName.Trim()
 
 $addonShortName = Read-Host "Enter $addonShortNameLabel (if any)"
 $addonShortName = $addonShortName.Trim()
-
 if ([string]::IsNullOrWhiteSpace($addonShortName)) {
     $addonShortName = $addonFullName
 }
@@ -60,7 +60,6 @@ if ([string]::IsNullOrWhiteSpace($addonShortName)) {
 while ($true) {
     $packageName = Read-Host "Enter $packageNameLabelSpecs"
     $packageName = $packageName.Trim()
-
     if ($packageName -match '^[a-z][a-z0-9_]*$') {
         break
     } else {
@@ -75,17 +74,19 @@ while ($true) {
 Write-Host "Current Working Directory: $(Get-Location)" -ForegroundColor Cyan
 Write-Host "Searching for directories containing __init__.py..." -ForegroundColor Cyan
 
-# Get all subdirectories (excluding __pycache__ and .git directories)
-$directories = Get-ChildItem -Recurse -Directory | Where-Object { 
-    $_.FullName -notmatch '\\\.git' -and $_.FullName -notmatch '\\__pycache__' 
+# Get all subdirectories (excluding __pycache__, .git, and root-level scripts)
+$directories = Get-ChildItem -Recurse -Directory | Where-Object {
+    $_.FullName -notmatch '\\\.git' -and
+    $_.FullName -notmatch '\\__pycache__' -and
+    $_.FullName -notmatch '\\scripts$'
 }
+
 Write-Host "All directories found: $($directories.Name -join ', ')" -ForegroundColor Green
 
 # Debugging: Print all directories and check for __init__.py manually
 foreach ($dir in $directories) {
     $initPath = "$($dir.FullName)\__init__.py"
     Write-Host "Checking: $($dir.FullName)"
-    
     if (Test-Path $initPath) {
         Write-Host "Found __init__.py in: $($dir.FullName)" -ForegroundColor Green
         break
@@ -109,17 +110,11 @@ $currPackageDir = $packageDir.Name
 # ────────────────────────────────────────────────────────────────────────────────
 # Print Confirmation Box
 # ────────────────────────────────────────────────────────────────────────────────
-$maxTextLength = 0
-foreach ($text in @(
+$maxTextLength = @(
     "${addonFullNameLabel}: $addonFullName",
     "${addonShortNameLabel}: $addonShortName",
     "${packageNameLabel}: $packageName"
-)) {
-    $textLength = $text.Length
-    if ($textLength -gt $maxTextLength) {
-        $maxTextLength = $textLength
-    }
-}
+) | Measure-Object -Property Length -Maximum | Select-Object -ExpandProperty Maximum
 
 Print-Box-Line ($maxTextLength + 4) $topLeftCorner $topRightCorner $horizontalLine
 
@@ -132,7 +127,6 @@ foreach ($text in @(
 }
 
 Print-Box-Line ($maxTextLength + 4) $bottomLeftCorner $bottomRightCorner $horizontalLine
-
 
 Write-Host ""
 Read-Host "If this information looks correct, press Enter to continue (or Ctrl+C to cancel)"
@@ -153,14 +147,18 @@ $replacePackage = "{{ADDON_NAME_PACKAGE}}"
 $replaceAddonName = "{{ADDON_NAME}}"
 $replaceAddonNameFull = "{{ADDON_NAME_FULL}}"
 
-# Get all files recursively, excluding the .git directory upfront
-Get-ChildItem -Recurse -File |
-Where-Object { $_.FullName -notmatch '\\\.git' } |  # Exclude any file within .git directory
-ForEach-Object {
-    $fileContent = Get-Content $_.FullName
+# Exclude .git and top-level scripts/ folder only
+$filesToUpdate = Get-ChildItem -Recurse -File | Where-Object {
+    $_.FullName -notmatch '\\\.git\\' -and
+    $_.FullName -notmatch "\\scripts\\configure.ps1" -and
+    $_.FullName -notmatch "^$($PSScriptRoot)\\"
+}
+
+foreach ($file in $filesToUpdate) {
+    $fileContent = Get-Content $file.FullName
     $updatedContent = $fileContent -replace $replacePackage, $packageName `
-                                      -replace $replaceAddonName, $addonShortName `
-                                      -replace $replaceAddonNameFull, $addonFullName
-    Set-Content $_.FullName $updatedContent
-    Write-Host "Replaced placeholders in $($_.FullName)"
+                                     -replace $replaceAddonName, $addonShortName `
+                                     -replace $replaceAddonNameFull, $addonFullName
+    Set-Content $file.FullName $updatedContent
+    Write-Host "Replaced placeholders in $($file.FullName)"
 }

@@ -128,9 +128,9 @@ fi
 # ────────────────────────────────────────────────────────────────────────────────
 # Replace placeholders
 # ────────────────────────────────────────────────────────────────────────────────
-replace_package="{{ADDON_NAME_PACKAGE}}"
-replace_addon_name="{{ADDON_NAME}}"
-replace_addon_name_full="{{ADDON_NAME_FULL}}"
+replace_package="a"
+replace_addon_name="a"
+replace_addon_name_full="a"
 
 perform_replacements() {
     local file="$1"
