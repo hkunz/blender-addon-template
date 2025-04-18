@@ -81,7 +81,6 @@ $directories = Get-ChildItem -Recurse -Directory | Where-Object {
 }
 Write-Host "All directories found: $($directories.Name -join ', ')" -ForegroundColor Green
 
-
 # Debugging: Print all directories and check for __init__.py manually
 foreach ($dir in $directories) {
     $initPath = "$($dir.FullName)\__init__.py"
@@ -158,9 +157,10 @@ $replaceAddonNameFull = "{{ADDON_NAME_FULL}}"
 Get-ChildItem -Recurse -File |
 Where-Object { $_.FullName -notmatch '\\\.git' } |  # Exclude any file within .git directory
 ForEach-Object {
-    (Get-Content $_.FullName) -replace $replacePackage, $packageName ` 
-                               -replace $replaceAddonName, $addonShortName ` 
-                               -replace $replaceAddonNameFull, $addonFullName |
-    Set-Content $_.FullName
+    $fileContent = Get-Content $_.FullName
+    $updatedContent = $fileContent -replace $replacePackage, $packageName `
+                                      -replace $replaceAddonName, $addonShortName `
+                                      -replace $replaceAddonNameFull, $addonFullName
+    Set-Content $_.FullName $updatedContent
     Write-Host "Replaced placeholders in $($_.FullName)"
 }
