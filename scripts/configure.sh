@@ -37,7 +37,8 @@ print_boxed_text() {
 # ────────────────────────────────────────────────────────────────────────────────
 addon_full_name_label="Addon Full Name"
 addon_short_name_label="Addon Short Name"
-package_name_label="Package Name (lowercase, no spaces, underscores only)"
+package_name_label="Package Name"
+package_name_label_specs="${package_name_label} (lowercase, no spaces, underscores only)"
 
 read -p "Enter ${addon_full_name_label}: " addon_full_name
 addon_full_name=$(echo "$addon_full_name" | sed 's/^[ \t]*//;s/[ \t]*$//')
@@ -53,21 +54,24 @@ if [ -z "$addon_short_name" ]; then
 fi
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Prompt for Package Name (with restrictions)
+# Prompt User for Package Name with Validation
 # ────────────────────────────────────────────────────────────────────────────────
-while true; do
-    read -p "Enter ${package_name_label}: " package_name
-    package_name=$(echo "$package_name" | sed 's/^[ \t]*//;s/[ \t]*$//')
+package_name=""
 
-    # Validate package name (must be lowercase, no spaces or special characters)
-    if [[ "$package_name" =~ ^[a-z0-9_]+$ ]]; then
-        break
-    else
-        echo "Error: The package name '$package_name' is invalid."
-        echo "Package names must be lowercase, and can only contain letters, numbers, and underscores (no spaces or dashes)."
+while true; do
+    read -p "Enter $package_name_label_specs: " package_name
+    package_name=$(echo "$package_name" | sed 's/^[ \t]*//;s/[ \t]*$//')  # Trim leading/trailing spaces
+
+    # Validate package name: must not start with a number and can only contain lowercase letters, numbers, and underscores
+    if [[ ! "$package_name" =~ ^[a-z][a-z0-9_]*$ ]]; then
+        echo -e "Error: The package name '$package_name' is invalid."
+        echo -e "Package names must start with a lowercase letter and can only contain lowercase letters, numbers, and underscores (no spaces or dashes)."
         echo -e "Please try again.\n"
+    else
+        break
     fi
 done
+
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Determine Package Folder
@@ -83,7 +87,7 @@ if [ -z "$package_dir" ]; then
     exit 1
 fi
 
-curr_proj_dir=$(basename "$package_dir" | sed 's/^[ \t]*//;s/[ \t]*$//')
+curr_package_dir=$(basename "$package_dir" | sed 's/^[ \t]*//;s/[ \t]*$//')
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Print Confirmation Box
@@ -92,8 +96,7 @@ max_text_length=0
 for text in \
     "${addon_full_name_label}: $addon_full_name" \
     "${addon_short_name_label}: $addon_short_name" \
-    "${package_name_label}: $package_name" \
-    "Detected Package Folder: $curr_proj_dir"; do
+    "${package_name_label}: $package_name"; do
     text_length=${#text}
     if (( text_length > max_text_length )); then
         max_text_length=$text_length
@@ -105,8 +108,7 @@ print_box_line "$((max_text_length + 4))" "$top_left_corner" "$top_right_corner"
 for text in \
     "${addon_full_name_label}: $addon_full_name" \
     "${addon_short_name_label}: $addon_short_name" \
-    "${package_name_label}: $package_name" \
-    "Detected Package Folder: $curr_proj_dir"; do
+    "${package_name_label}: $package_name"; do
     print_boxed_text "$text"
 done
 print_box_line "$((max_text_length + 4))" "$bottom_left_corner" "$bottom_right_corner" "$horizontal_line"
@@ -117,8 +119,8 @@ read -p "If this information looks correct, press Enter to continue (or Ctrl+C t
 # ────────────────────────────────────────────────────────────────────────────────
 # Rename the folder if necessary
 # ────────────────────────────────────────────────────────────────────────────────
-if [ "$curr_proj_dir" != "$package_name" ]; then
-    echo "Renaming folder '$curr_proj_dir' to '$package_name'"
+if [ "$curr_package_dir" != "$package_name" ]; then
+    echo "Renaming folder '$curr_package_dir' to '$package_name'"
     mv "$package_dir" "$package_name"
     package_dir="$package_name"
 fi
