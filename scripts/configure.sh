@@ -88,6 +88,7 @@ for text in \
 done
 
 print_box_line "$((max_text_length + 4))" "$top_left_corner" "$top_right_corner" "$horizontal_line"
+
 for text in \
     "${addon_full_name_label}: $addon_full_name" \
     "${addon_short_name_label}: $addon_short_name" \
@@ -96,6 +97,9 @@ for text in \
     print_boxed_text "$text"
 done
 print_box_line "$((max_text_length + 4))" "$bottom_left_corner" "$bottom_right_corner" "$horizontal_line"
+
+echo
+read -p "If this information looks correct, press Enter to continue (or Ctrl+C to cancel)..." dummy
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Rename the folder if necessary
