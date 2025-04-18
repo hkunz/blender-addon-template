@@ -1,10 +1,11 @@
-.PHONY: all clean documentation
+.PHONY: all clean
+
+MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 version ?= -i
 
 all: \
 	clean \
-	documentation
 
 documentation: \
 	documentation-content-final \
@@ -13,17 +14,17 @@ documentation: \
 documentation-content-final:
 	@echo "=====================================================================================>"
 	@echo "Generating documentation content file ..."
-	./scripts/generate-documentation-content-html.sh
+	$(MAKEFILE_DIR)/scripts/generate-documentation-content-html.sh
 
 documentation-pdf:
 	@echo "=====================================================================================>"
 	@echo "Generating documentation PDF ..."
-	./scripts/convert-html-to-pdf.sh resources/documentation/content/latest/final/documentation-content.html
+	$(MAKEFILE_DIR)/scripts/convert-html-to-pdf.sh resources/documentation/content/latest/final/documentation-content.html
 
 create-next-tag:
 	@echo "=====================================================================================>"
 	@echo "Create new tag ..."
-	./scripts/create-tag.sh $(version)
+	$(MAKEFILE_DIR)/scripts/create-tag.sh $(version)
 
 zip:
 	./scripts/build-zip.sh

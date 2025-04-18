@@ -1,7 +1,7 @@
 #!/bin/bash
 
-current_directory=$(basename "$(pwd)" | sed 's/^[ \t]*//;s/[ \t]*$//')
-package_name="${current_directory}"
+curr_proj_dir=$(basename "$(pwd)" | sed 's/^[ \t]*//;s/[ \t]*$//')
+package_name="${curr_proj_dir}"
 python_package_note="Python package names start with the name of the current directory"
 
 vertical_line="║"
@@ -11,17 +11,17 @@ top_right_corner="╗"
 bottom_left_corner="╚"
 bottom_right_corner="╝"
 
-echo "Current directory: ${current_directory}"
+echo "Current directory: ${curr_proj_dir}"
 
 # Check if the directory name contains dashes
-if [[ "$current_directory" == *-* ]]; then
+if [[ "$curr_proj_dir" == *-* ]]; then
     echo "Warning: ${python_package_note} and should use underscores instead of dashes or spaces in their names."
     echo "Please rename the directory and re-run the script."
     exit 1
 fi
 
 # Check if the directory name starts with a letter or number
-if ! [[ "$current_directory" =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
+if ! [[ "$curr_proj_dir" =~ ^[a-zA-Z][a-zA-Z0-9_]*$ ]]; then
     echo "Error: ${python_package_note} and should start with a letter and contain only letters, numbers, or underscores. No spaces allowed"
     echo "Please rename the directory and re-run the script."
     exit 1
