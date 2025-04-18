@@ -1,115 +1,162 @@
 # ────────────────────────────────────────────────────────────────────────────────
-# Box Drawing Utility
+# Box Drawing Utility (Simplified with ASCII characters)
 # ────────────────────────────────────────────────────────────────────────────────
-$vertical_line = "║"
-$horizontal_line = "═"
-$top_left_corner = "╔"
-$top_right_corner = "╗"
-$bottom_left_corner = "╚"
-$bottom_right_corner = "╝"
+$verticalLine = "|"
+$horizontalLine = "="
+$topLeftCorner = "+"
+$topRightCorner = "+"
+$bottomLeftCorner = "+"
+$bottomRightCorner = "+"
 
-function Print-BoxLine {
-    param ($length, $leftCorner, $rightCorner, $lineChar)
-    $line = $leftCorner + ($lineChar * $length) + $rightCorner
-    Write-Host $line
+function Print-Box-Line {
+    param (
+        [int]$lineLength,
+        [string]$cornerLeft,
+        [string]$cornerRight,
+        [string]$lineChar
+    )
+    $boxLine = "$cornerLeft"
+    for ($i = 0; $i -lt $lineLength; $i++) {
+        $boxLine += $lineChar
+    }
+    $boxLine += "$cornerRight"
+    Write-Host $boxLine
 }
 
-function Print-BoxedText {
-    param ($text, $maxLength)
-    $padding = [math]::Floor(($maxLength - $text.Length) / 2)
-    $leftPad = " " * ($padding + 2)
-    $rightPad = " " * ($maxLength - $text.Length - $padding + 2)
-    Write-Host "$vertical_line$leftPad$text$rightPad$vertical_line"
+function Print-Boxed-Text {
+    param (
+        [string]$text,
+        [int]$maxTextLength
+    )
+    $boxWidth = $text.Length
+    $padding = [math]::Floor(($maxTextLength - $boxWidth) / 2)
+    $leftPadding = $padding + 2
+    $rightPadding = $maxTextLength - $boxWidth - $padding + 2
+    $formattedText = "$verticalLine" + " " * $leftPadding + $text + " " * $rightPadding + "$verticalLine"
+    Write-Host $formattedText
 }
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Prompt User for Input
 # ────────────────────────────────────────────────────────────────────────────────
-$addon_full_name_label = "Addon Full Name"
-$addon_short_name_label = "Addon Short Name"
-$package_name_label = "Package Name"
-$package_name_label_specs = "$package_name_label (lowercase, no spaces, underscores only)"
+$addonFullNameLabel = "Addon Full Name"
+$addonShortNameLabel = "Addon Short Name"
+$packageNameLabel = "Package Name"
+$packageNameLabelSpecs = "${packageNameLabel} (lowercase, no spaces, underscores only)"
 
-$addon_full_name = Read-Host "Enter $addon_full_name_label"
-$addon_full_name = $addon_full_name.Trim()
+$addonFullName = Read-Host "Enter $addonFullNameLabel"
+$addonFullName = $addonFullName.Trim()
 
-$addon_short_name = Read-Host "Enter $addon_short_name_label (if any)"
-$addon_short_name = $addon_short_name.Trim()
-if (-not $addon_short_name) {
-    $addon_short_name = $addon_full_name
+$addonShortName = Read-Host "Enter $addonShortNameLabel (if any)"
+$addonShortName = $addonShortName.Trim()
+
+if ([string]::IsNullOrWhiteSpace($addonShortName)) {
+    $addonShortName = $addonFullName
 }
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Prompt for Package Name (Validated)
+# Validate Package Name
 # ────────────────────────────────────────────────────────────────────────────────
-do {
-    $package_name = Read-Host "Enter $package_name_label_specs"
-    $package_name = $package_name.Trim()
-    if ($package_name -notmatch '^[a-z][a-z0-9_]*$') {
-        Write-Host "`nError: The package name '$package_name' is invalid."
-        Write-Host "Package names must start with a lowercase letter and can only contain lowercase letters, numbers, and underscores (no spaces or dashes).`n"
+while ($true) {
+    $packageName = Read-Host "Enter $packageNameLabelSpecs"
+    $packageName = $packageName.Trim()
+
+    if ($packageName -match '^[a-z][a-z0-9_]*$') {
+        break
+    } else {
+        Write-Host "Error: Package name must start with a lowercase letter and contain only lowercase letters, numbers, and underscores." -ForegroundColor Red
+        Write-Host "Please try again.`n"
     }
-} until ($package_name -match '^[a-z][a-z0-9_]*$')
+}
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Determine Package Folder
+# Find Package Directory
 # ────────────────────────────────────────────────────────────────────────────────
-$package_dir = Get-ChildItem -Directory -Exclude "__pycache__" | Where-Object {
-    Test-Path "$($_.FullName)\__init__.py"
-} | Select-Object -First 1
+Write-Host "Current Working Directory: $(Get-Location)" -ForegroundColor Cyan
+Write-Host "Searching for directories containing __init__.py..." -ForegroundColor Cyan
 
-if (-not $package_dir) {
-    Write-Error "Could not find a valid Python package directory (must contain __init__.py)"
+# Get all subdirectories (excluding __pycache__ and the placeholder {{ADDON_NAME_PACKAGE}})
+$directories = Get-ChildItem -Recurse -Directory | Where-Object { $_.FullName -notmatch '__pycache__|{{ADDON_NAME_PACKAGE}}' }
+Write-Host "All directories found: $($directories.Name -join ', ')" -ForegroundColor Green
+
+# Debugging: Print all directories and check for __init__.py manually
+foreach ($dir in $directories) {
+    $initPath = "$($dir.FullName)\__init__.py"
+    Write-Host "Checking: $($dir.FullName)"
+    
+    if (Test-Path $initPath) {
+        Write-Host "Found __init__.py in: $($dir.FullName)" -ForegroundColor Green
+        break
+    } else {
+        Write-Host "__init__.py NOT found in: $($dir.FullName)" -ForegroundColor Red
+    }
+}
+
+# ────────────────────────────────────────────────────────────────────────────────
+# Perform Package Renaming if Necessary
+# ────────────────────────────────────────────────────────────────────────────────
+$packageDir = $directories | Where-Object { Test-Path "$($_.FullName)\__init__.py" } | Select-Object -First 1
+
+if (-not $packageDir) {
+    Write-Host "Error: Could not find a valid Python package directory (must contain __init__.py)" -ForegroundColor Red
     exit 1
 }
 
-$curr_package_dir = $package_dir.Name.Trim()
+$currPackageDir = $packageDir.Name
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Print Confirmation Box
 # ────────────────────────────────────────────────────────────────────────────────
-$lines = @(
-    "$addon_full_name_label: $addon_full_name",
-    "$addon_short_name_label: $addon_short_name",
-    "$package_name_label: $package_name"
-)
-$max_text_length = ($lines | Measure-Object -Property Length -Maximum).Maximum
-
-Print-BoxLine ($max_text_length + 4) $top_left_corner $top_right_corner $horizontal_line
-foreach ($line in $lines) {
-    Print-BoxedText $line $max_text_length
+$maxTextLength = 0
+foreach ($text in @(
+    "${addonFullNameLabel}: $addonFullName",
+    "${addonShortNameLabel}: $addonShortName",
+    "${packageNameLabel}: $packageName"
+)) {
+    $textLength = $text.Length
+    if ($textLength -gt $maxTextLength) {
+        $maxTextLength = $textLength
+    }
 }
-Print-BoxLine ($max_text_length + 4) $bottom_left_corner $bottom_right_corner $horizontal_line
 
-Write-Host
+Print-Box-Line ($maxTextLength + 4) $topLeftCorner $topRightCorner $horizontalLine
+
+foreach ($text in @(
+    "${addonFullNameLabel}: $addonFullName",
+    "${addonShortNameLabel}: $addonShortName",
+    "${packageNameLabel}: $packageName"
+)) {
+    Print-Boxed-Text $text $maxTextLength
+}
+
+Print-Box-Line ($maxTextLength + 4) $bottomLeftCorner $bottomRightCorner $horizontalLine
+
+
+Write-Host ""
 Read-Host "If this information looks correct, press Enter to continue (or Ctrl+C to cancel)"
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Rename the folder if necessary
+# Rename Folder if Necessary
 # ────────────────────────────────────────────────────────────────────────────────
-if ($curr_package_dir -ne $package_name) {
-    Write-Host "Renaming folder '$curr_package_dir' to '$package_name'"
-    Rename-Item -Path $package_dir.FullName -NewName $package_name
-    $package_dir = Get-Item -Path ".\$package_name"
+if ($currPackageDir -ne $packageName) {
+    Write-Host "Renaming folder '$currPackageDir' to '$packageName'"
+    Rename-Item -Path $packageDir.FullName -NewName $packageName
+    $packageDir = Get-Item ".\$packageName"
 }
 
 # ────────────────────────────────────────────────────────────────────────────────
-# Replace placeholders
+# Perform Placeholder Replacements
 # ────────────────────────────────────────────────────────────────────────────────
-$replace_package = "{{ADDON_NAME_PACKAGE}}"
-$replace_addon_name = "{{ADDON_NAME}}"
-$replace_addon_name_full = "{{ADDON_NAME_FULL}}"
+$replacePackage = "{{ADDON_NAME_PACKAGE}}"
+$replaceAddonName = "{{ADDON_NAME}}"
+$replaceAddonNameFull = "{{ADDON_NAME_FULL}}"
 
-$files = Get-ChildItem -Recurse -File -Exclude "*.sh", "*.png" | Where-Object {
-    $_.FullName -notmatch '\\\.git\\|\\__pycache__\\'
-}
-
-foreach ($file in $files) {
-    (Get-Content $file.FullName) |
-        ForEach-Object {
-            $_ -replace $replace_package, $package_name `
-               -replace $replace_addon_name, $addon_short_name `
-               -replace $replace_addon_name_full, $addon_full_name
-        } | Set-Content $file.FullName
-    Write-Host "Replaced placeholders in $($file.FullName)"
+Get-ChildItem -Recurse -File -Exclude *.sh, *.png |
+Where-Object { $_.FullName -notmatch '\\(__pycache__|\.git)\\' } |
+ForEach-Object {
+    (Get-Content $_.FullName) -replace $replacePackage, $packageName `
+                               -replace $replaceAddonName, $addonShortName `
+                               -replace $replaceAddonNameFull, $addonFullName |
+    Set-Content $_.FullName
+    Write-Host "Replaced placeholders in $($_.FullName)"
 }
