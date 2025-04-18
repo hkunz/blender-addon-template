@@ -75,9 +75,12 @@ while ($true) {
 Write-Host "Current Working Directory: $(Get-Location)" -ForegroundColor Cyan
 Write-Host "Searching for directories containing __init__.py..." -ForegroundColor Cyan
 
-# Get all subdirectories (excluding __pycache__ and the placeholder {{ADDON_NAME_PACKAGE}})
-$directories = Get-ChildItem -Recurse -Directory | Where-Object { $_.FullName -notmatch '__pycache__|{{ADDON_NAME_PACKAGE}}' }
+# Get all subdirectories (excluding __pycache__ and .git directories)
+$directories = Get-ChildItem -Recurse -Directory | Where-Object { 
+    $_.FullName -notmatch '\\\.git' -and $_.FullName -notmatch '\\__pycache__' 
+}
 Write-Host "All directories found: $($directories.Name -join ', ')" -ForegroundColor Green
+
 
 # Debugging: Print all directories and check for __init__.py manually
 foreach ($dir in $directories) {
@@ -151,11 +154,12 @@ $replacePackage = "{{ADDON_NAME_PACKAGE}}"
 $replaceAddonName = "{{ADDON_NAME}}"
 $replaceAddonNameFull = "{{ADDON_NAME_FULL}}"
 
-Get-ChildItem -Recurse -File -Exclude *.sh, *.png |
-Where-Object { $_.FullName -notmatch '\\(__pycache__|\.git)\\' } |
+# Get all files recursively, excluding the .git directory upfront
+Get-ChildItem -Recurse -File |
+Where-Object { $_.FullName -notmatch '\\\.git' } |  # Exclude any file within .git directory
 ForEach-Object {
-    (Get-Content $_.FullName) -replace $replacePackage, $packageName `
-                               -replace $replaceAddonName, $addonShortName `
+    (Get-Content $_.FullName) -replace $replacePackage, $packageName ` 
+                               -replace $replaceAddonName, $addonShortName ` 
                                -replace $replaceAddonNameFull, $addonFullName |
     Set-Content $_.FullName
     Write-Host "Replaced placeholders in $($_.FullName)"
