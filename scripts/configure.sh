@@ -70,7 +70,7 @@ if [ -z "$package_dir" ]; then
 fi
 
 curr_proj_dir=$(basename "$package_dir" | sed 's/^[ \t]*//;s/[ \t]*$//')
-package_name="$addon_full_name"
+package_name=$(echo "$addon_full_name" | tr '[:upper:]' '[:lower:]')
 
 # ────────────────────────────────────────────────────────────────────────────────
 # Print Confirmation Box
