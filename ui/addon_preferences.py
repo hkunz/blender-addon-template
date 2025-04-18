@@ -4,7 +4,7 @@ import bpy_types
 from bpy.types import UILayout
 from typing import List
 
-from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils
 
 def on_addon_preferences_change() -> None:
     addon: bpy.types.Addon = bpy.context.preferences.addons[MyAddonPreferences.bl_idname]

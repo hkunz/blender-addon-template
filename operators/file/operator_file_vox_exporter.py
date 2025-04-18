@@ -1,6 +1,6 @@
 import bpy
 
-from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_exporter import OperatorFileExporter # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_exporter import OperatorFileExporter
 
 class EXPORT_OT_file_vox(OperatorFileExporter):
     bl_idname = "export.export_file_vox"

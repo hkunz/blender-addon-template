@@ -3,7 +3,7 @@ import os
 
 from typing import List
 
-from {{ADDON_NAME_PACKAGE}}.utils.file_utils import FileUtils # type: ignore
+from {{ADDON_NAME_PACKAGE}}.utils.file_utils import FileUtils
 
 LANG: str = 'en'
 loaded_translations: List = None

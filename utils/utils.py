@@ -2,7 +2,7 @@ import bpy
 
 from typing import List, Callable, Any, Tuple
 
-from {{ADDON_NAME_PACKAGE}} import bl_info # type: ignore
+from {{ADDON_NAME_PACKAGE}} import bl_info
 
 class Utils:
 

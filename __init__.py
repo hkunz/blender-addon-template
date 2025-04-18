@@ -43,13 +43,13 @@ from pathlib import Path
 from typing import Union
 from bpy.app.handlers import persistent
 
-from {{ADDON_NAME_PACKAGE}}.ui.addon_preferences import register as register_preferences, unregister as unregister_preferences # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.file_utils import FileUtils # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.temp_file_manager import TempFileManager # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager # type: ignore
-from {{ADDON_NAME_PACKAGE}}.translation.translations import register as register_translations, unregister as unregister_translations # type: ignore
-from {{ADDON_NAME_PACKAGE}}.ui.sidebar_menu import register as register_sidebar_menu, unregister as unregister_sidebar_menu # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.common.operator_generic_popup import register as register_generic_popup, unregister as unregister_generic_popup # type: ignore
+from {{ADDON_NAME_PACKAGE}}.ui.addon_preferences import register as register_preferences, unregister as unregister_preferences
+from {{ADDON_NAME_PACKAGE}}.utils.file_utils import FileUtils
+from {{ADDON_NAME_PACKAGE}}.utils.temp_file_manager import TempFileManager
+from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager
+from {{ADDON_NAME_PACKAGE}}.translation.translations import register as register_translations, unregister as unregister_translations
+from {{ADDON_NAME_PACKAGE}}.ui.sidebar_menu import register as register_sidebar_menu, unregister as unregister_sidebar_menu
+from {{ADDON_NAME_PACKAGE}}.operators.common.operator_generic_popup import register as register_generic_popup, unregister as unregister_generic_popup
 
 def add_executable_permission(exe: Union[str, Path]) -> Path: #https://blender.stackexchange.com/questions/310144/mac-executable-binary-within-addon-zip-loses-execute-permission-when-addon-zip
     app = Path(f"{exe}")

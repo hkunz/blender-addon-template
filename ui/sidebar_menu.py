@@ -4,13 +4,13 @@ import bpy_types
 from typing import List, Tuple
 from bpy.app.handlers import persistent
 
-from {{ADDON_NAME_PACKAGE}}.operators.operator_empty import OBJECT_OT_OperatorEmpty # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_vox_exporter import EXPORT_OT_file_vox # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_all_temp_cache import register as register_all_temp_cache_operator, unregister as unregister_all_temp_cache_operator # type: ignore
-from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_temp_cache import register as register_temp_cache_operator, unregister as unregister_temp_cache_operator # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.object_utils import ObjectUtils # type: ignore
-from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager  # type: ignore
+from {{ADDON_NAME_PACKAGE}}.operators.operator_empty import OBJECT_OT_OperatorEmpty
+from {{ADDON_NAME_PACKAGE}}.operators.file.operator_file_vox_exporter import EXPORT_OT_file_vox
+from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_all_temp_cache import register as register_all_temp_cache_operator, unregister as unregister_all_temp_cache_operator
+from {{ADDON_NAME_PACKAGE}}.operators.cache.operator_clear_temp_cache import register as register_temp_cache_operator, unregister as unregister_temp_cache_operator
+from {{ADDON_NAME_PACKAGE}}.utils.utils import Utils
+from {{ADDON_NAME_PACKAGE}}.utils.object_utils import ObjectUtils
+from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager
 
 IDNAME_ICONS = {
     "NodeSocketMaterial": "MATERIAL_DATA",
