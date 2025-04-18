@@ -12,9 +12,6 @@ clean:
 create-next-tag:
 	$(MAKE_INNER) create-next-tag
 
-zip:
-	$(MAKE_INNER) zip
-
 fix-py-permissions:
 	$(MAKE_INNER) fix-py-permissions
 
