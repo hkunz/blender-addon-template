@@ -29,7 +29,7 @@
 =================================================================
 
 * Run "make zip" or directly run ./scripts/build-zip.sh from root directory to create ZIP addon file
-* Zip file will be created 1 level above the addon root folder
+* Zip file will be created within the project addon root folder (one level above the addon package name)
 
 =================================================================
 # Create ZIP addon file on Windows

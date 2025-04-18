@@ -1,40 +1,31 @@
 .PHONY: all clean documentation
 
-version ?= -i
+INNER_MAKE := ./{{ADDON_NAME_PACKAGE}}/Makefile
+MAKE_INNER := $(MAKE) -f $(INNER_MAKE)
 
-all: \
-	clean \
-	documentation
-
-documentation: \
-	documentation-content-final \
-	documentation-pdf
-
-documentation-content-final:
-	@echo "=====================================================================================>"
-	@echo "Generating documentation content file ..."
-	./scripts/generate-documentation-content-html.sh
-
-documentation-pdf:
-	@echo "=====================================================================================>"
-	@echo "Generating documentation PDF ..."
-	./scripts/convert-html-to-pdf.sh resources/documentation/content/latest/final/documentation-content.html
-
-create-next-tag:
-	@echo "=====================================================================================>"
-	@echo "Create new tag ..."
-	./scripts/create-tag.sh $(version)
-
-zip:
-	./scripts/build-zip.sh
-
-fix-py-permissions:
-	find . -type f -name '*.py' -exec chmod 755 {} +
+all:
+	$(MAKE_INNER) all
 
 clean:
-	@echo "=====================================================================================>"
-	@echo "Cleaning ..."
-	find . -type d -name '__pycache__' -exec rm -r {} +
+	$(MAKE_INNER) clean
+
+documentation:
+	$(MAKE_INNER) documentation
+
+documentation-content-final:
+	$(MAKE_INNER) documentation-content-final
+
+documentation-pdf:
+	$(MAKE_INNER) documentation-pdf
+
+create-next-tag:
+	$(MAKE_INNER) create-next-tag
+
+zip:
+	$(MAKE_INNER) zip
+
+fix-py-permissions:
+	$(MAKE_INNER) fix-py-permissions
 
 configure:
 	@echo "=====================================================================================>"
