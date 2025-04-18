@@ -45,10 +45,6 @@ class OperatorFileExporter(bpy.types.Operator, ExportHelper):
         default=False,
     ) # type: ignore
 
-    def __init__(self):
-        super().__init__()
-        self.options_panel = None
-
     def draw(self, context: bpy_types.Context) -> None:
         self.options_panel = self.layout.box().column()
         self.options_panel.prop(self, "my_float_prop")
@@ -80,6 +76,7 @@ class OperatorFileExporter(bpy.types.Operator, ExportHelper):
         return True
 
     def invoke(self, context: bpy_types.Context, event: bpy.types.Event) -> set[str]:
+        self.options_panel = None
         if False:
             return {'PASS_THROUGH'}
         wm: bpy_types.WindowManager = context.window_manager
