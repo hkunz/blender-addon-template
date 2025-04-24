@@ -1,4 +1,5 @@
 import bpy
+import logging
 
 from typing import List, Callable, Any, Tuple
 
@@ -58,3 +59,30 @@ class Utils:
         def wrapper(*args, **kwargs):
             raise NotImplementedError(f"{func.__name__} must be overridden in subclass.")
         return wrapper
+
+    @staticmethod
+    def log_and_raise(msg: str, exc_type=Exception, cause: Exception = None, level: str = 'ERROR'):
+        level = level.upper()
+        log_func = getattr(logging, level.lower(), logging.error)
+        log_func(msg)
+        
+        if cause:
+            raise exc_type(msg) from cause
+        else:
+            raise exc_type(msg)
+
+    @staticmethod
+    def log_and_report(msg: str, operator=None, level='INFO'):
+        level = level.upper()
+        log_func = {
+            'DEBUG': logging.debug,
+            'INFO': logging.info,
+            'WARNING': logging.warning,
+            'ERROR': logging.error,
+            'CRITICAL': logging.critical
+        }.get(level, logging.info)  # fallback to logging.info
+
+        log_func(msg)  # logs to console or file
+
+        if operator and level in {'INFO', 'WARNING', 'ERROR'}:
+            operator.report({level}, msg)

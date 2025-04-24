@@ -220,4 +220,4 @@ def unregister() -> None:
     bpy.utils.unregister_class(EXPORT_OT_file_vox)
     unregister_temp_cache_operator()
     unregister_all_temp_cache_operator()
-    bpy.app.handlers.depsgraph_update_post.clear()
+    bpy.app.handlers.depsgraph_update_post.remove(on_depsgraph_update)

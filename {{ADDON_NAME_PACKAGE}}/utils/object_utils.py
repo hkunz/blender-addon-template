@@ -3,6 +3,8 @@ import sys
 import traceback
 import bpy_types
 import bmesh
+import os
+import logging
 
 from math import radians
 from mathutils import Euler, Matrix
@@ -223,3 +225,57 @@ class ObjectUtils:
     def get_modifier_prop_name(modifier, prop_id): # modifier = context.object.modifiers[modifier_name]
         tree = modifier.node_group.interface.items_tree if bpy.app.version >= (4,0,0) else modifier.node_group.inputs
         return next(rna.name for rna in tree if rna.identifier == prop_id) # prop_id ex: "Socket_2"
+
+    @staticmethod
+    def _import_node_group(blend_path, group_node_name, link=True):
+        """Helper function to either link or append a node group."""
+        
+        curr_blend = os.path.basename(bpy.data.filepath)
+        if os.path.basename(blend_path) == curr_blend:
+            logging.debug(f"Skipping {blend_path} (same file is being edited).")
+            return None
+
+        existing_node_tree = bpy.data.node_groups.get(group_node_name)
+        if existing_node_tree:
+            logging.debug(f"Node tree '{existing_node_tree.name}' already exists. Skipping import.")
+            return existing_node_tree
+
+        if not os.path.exists(blend_path):
+            logging.debug(f"Blend file not found: {blend_path}")
+            return None
+
+        if link:
+            # Linking the node group (keeps it external)
+            bpy.ops.wm.link(
+                filepath=f"{blend_path}/NodeTree/{group_node_name}",
+                directory=f"{blend_path}/NodeTree/",
+                filename=group_node_name
+            )
+        else:
+            # Appending the node group (makes a local copy)
+            with bpy.data.libraries.load(blend_path, link=False) as (data_from, data_to):
+                if group_node_name in data_from.node_groups:
+                    data_to.node_groups.append(group_node_name)
+
+        # Find the imported node tree
+        ng = bpy.data.node_groups.get(group_node_name)
+
+        if ng:
+            ng.use_fake_user = True  # Prevent deletion on exit
+            #ng[group_node_name] = group_node_name  # Store an attribute for tracking # This is already stored in the original blend file
+            logging.debug(f"Verifying {group_node_name}={ng[group_node_name]}")
+            logging.debug(f"{'Linked' if link else 'Appended'} node tree: {ng.name}")
+        else:
+            logging.debug(f"❌ Error: Node tree '{group_node_name}' not found after {'linking' if link else 'appending'}.")
+
+        return ng
+
+    @staticmethod
+    def gn_link_node_group(blend_path, group_node_name):
+        """Links a node group from an external blend file."""
+        return ObjectUtils._import_node_group(blend_path, group_node_name, link=True)
+
+    @staticmethod
+    def gn_append_node_group(blend_path, group_node_name):
+        """Appends a node group from an external blend file."""
+        return ObjectUtils._import_node_group(blend_path, group_node_name, link=False)
