@@ -140,8 +140,8 @@ perform_replacements() {
          s/${replace_addon_name_full}/${addon_full_name}/g" "$file"
 }
 
-find . \( -name .git -o -name __pycache__ \) -prune -o \( -type f -not -name "*.sh" -not -name "*.png" ! -name "LICENSE" ! -name "*.log" \) -print0 | \
-while IFS= read -r -d '' file; do
-    perform_replacements "$file"
-    echo "Replaced placeholders in $file"
-done
+find . \( -name .git -o -name __pycache__ \) -prune -o \( -type f ! -name "*.sh" ! -name "*.png" ! -name "*.ps1" \) -print0 | \
+    while IFS= read -r -d '' file; do
+        perform_replacements "$file"
+        echo "Replaced placeholders in $file"
+    done
