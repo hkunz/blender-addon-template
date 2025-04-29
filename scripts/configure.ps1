@@ -60,7 +60,7 @@ if ([string]::IsNullOrWhiteSpace($addonShortName)) {
 while ($true) {
     $packageName = Read-Host "Enter $packageNameLabelSpecs"
     $packageName = $packageName.Trim()
-    if ($packageName -match '^[a-z][a-z0-9_]*$') {
+    if ($packageName -cmatch '^[a-z][a-z0-9_]*$') {
         break
     } else {
         Write-Host "Error: Package name must start with a lowercase letter and contain only lowercase letters, numbers, and underscores." -ForegroundColor Red
