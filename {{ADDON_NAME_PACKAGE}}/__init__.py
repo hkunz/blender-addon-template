@@ -62,13 +62,13 @@ OPERATOR_CLASSES = [
 
 def add_executable_permission(exe: Union[str, Path]) -> Path:  # https://blender.stackexchange.com/questions/310144/mac-executable-binary-within-addon-zip-loses-execute-permission-when-addon-zip
     app = Path(f"{exe}")
-    logging.debug("Using voxconvert:", app, f"({FileUtils.get_file_size(app)})")
+    logging.debug("Using voxconvert: %s %s", app, f"({FileUtils.get_file_size(app)})")
     app.chmod(app.stat().st_mode | stat.S_IEXEC | stat.S_IXGRP | stat.S_IXOTH)
     return app
 
 @persistent
 def on_application_load(a, b):
-    logging.debug("Application load post handler ==============>", a, b)
+    logging.debug("Application load post handler ==============> '%s''%s'", a, b)
     # check_addon_compatibility() # check compatibility of addon and its settings if opened in another blender version
 
 def register() -> None:

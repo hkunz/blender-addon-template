@@ -171,7 +171,7 @@ class OBJECT_PT_my_addon_panel(bpy.types.Panel):
         try:
             layout.prop(mat.my_slot_setting, "rgb_controller")
         except Exception as e:
-            print("Cannot add Color Picker: ", e)
+            pass  # print("Cannot add Color Picker: ", e)
         # sample to set the color via python:
         # ob.active_material.slot_setting.rgb_controller = (1, 0, 0, 1)
 
@@ -213,7 +213,8 @@ def unregister() -> None:
     bpy.utils.unregister_class(OBJECT_PT_my_addon_panel)
     bpy.utils.unregister_class(MyPropertyGroup1)
     bpy.utils.unregister_class(MyPropertyGroup2)
-    del bpy.types.Material.my_slot_setting
+    if bpy.types.Material.my_slot_setting:
+        del bpy.types.Material.my_slot_setting
     del bpy.types.Scene.expanded_options
     del bpy.types.Scene.my_property_group_pointer
     bpy.utils.unregister_class(OBJECT_OT_OperatorEmpty)
