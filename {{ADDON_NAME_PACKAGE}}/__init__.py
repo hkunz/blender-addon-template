@@ -52,7 +52,7 @@ from {{ADDON_NAME_PACKAGE}}.utils.temp_file_manager import TempFileManager
 from {{ADDON_NAME_PACKAGE}}.utils.icons_manager import IconsManager
 from {{ADDON_NAME_PACKAGE}}.translation.translations import register as register_translations, unregister as unregister_translations
 from {{ADDON_NAME_PACKAGE}}.ui.sidebar_menu import register as register_sidebar_menu, unregister as unregister_sidebar_menu
-from {{ADDON_NAME_PACKAGE}}.debug.operator_set_log_level import DEVTOOLS_OT_logging_level
+from {{ADDON_NAME_PACKAGE}}.operators.debug.operator_set_log_level import DEVTOOLS_OT_logging_level
 from {{ADDON_NAME_PACKAGE}}.operators.common.operator_generic_popup import register as register_generic_popup, unregister as unregister_generic_popup
 
 OPERATOR_CLASSES = [
